@@ -16,6 +16,12 @@ const p1_start = 100;
 const p1_end = 50;
 const speed = 2;
 const height = windowHeight;
+let dColor;
+let pColor = r.BLUE;
+
+function changeColor(start, end) {
+  return d_x + d_width >= start && d_x <= start + end ? r.RED : r.WHITE
+}
 
 function update() {
   if (d_x + d_width < windowWidth && position % 2 === 0) {
@@ -33,8 +39,10 @@ function update() {
 function draw() {
   r.BeginDrawing();
   r.ClearBackground(r.BLACK);
-  r.DrawRectangle(p1_start, y, p1_end, height, r.BLUE);
-  r.DrawRectangle(d_x, y, d_width, height, r.WHITE);
+  r.DrawRectangle(p1_start, y, p1_end, height, pColor);
+
+  dColor = changeColor(p1_start, p1_end);
+  r.DrawRectangle(d_x, y, d_width, height, dColor);
   r.EndDrawing();
 }
 
