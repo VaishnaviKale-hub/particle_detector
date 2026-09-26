@@ -2,32 +2,58 @@ const r = require("raylib");
 
 const windowWidth = 300;
 const windowHeight = 200;
-let position = 2;
-let d_x = 1;
 const y = 0;
-const d_width = 20;
-const speed = 1;
-let dColor;
+const detectorWidth = 20;
+
+let detector1X = 0;
+let detector2X = windowWidth - detectorWidth;
+let d1Forward = 2;
+const start1 = detector1X;
+const d1Limit = windowWidth / 2;
+let d2Forward = 3;
+const start2 = detector2X;
+const d2Limit = windowWidth / 2 + detectorWidth;
 
 function setup() {
   r.InitWindow(windowWidth, windowHeight, "Particle Dectector");
   r.SetTargetFPS(50);
 }
 
-function update() {
-  if (d_x + d_width < windowWidth && position % 2 === 0) {
-    d_x = d_x + speed;
+function move1() {
+  const d1Speed = 1;
+
+  if (d1Forward % 2 === 0) {
+    detector1X = detector1X + d1Speed;
   }
-  if (d_x + d_width >= windowWidth || d_x - speed <= 0) {
-    position++;
+  else if (d1Forward % 2 != 0) {
+    detector1X = detector1X - d1Speed;
   }
-  if (position % 2 != 0) {
-    d_x = d_x - speed;
+  if (detector1X + detectorWidth === d1Limit || detector1X === start1) {
+    d1Forward++;
   }
 }
 
-function changeColor(start, end, d_x, d_width) {
-  return d_x + d_width >= start && d_x <= start + end ? r.RED : r.WHITE;
+function move2() {
+  const d2Speed = 1;
+
+  if (d2Forward % 2 === 0) {
+    detector2X = detector2X + d2Speed;
+  }
+  if (d2Forward % 2 != 0) {
+    detector2X = detector2X - d2Speed;
+  }
+  if (detector2X + detectorWidth === d2Limit || detector2X === start2) {
+    d2Forward++;
+  }
+}
+
+function update() {
+  move1();
+  move2();
+}
+
+function changeColor(start, end, d_x, detectorWidth) {
+  return d_x + detectorWidth >= start && d_x <= start + end ? r.RED : r.WHITE;
 }
 
 function draw() {
@@ -37,17 +63,24 @@ function draw() {
   const p1_end = 50;
   const p2_start = 200
   const p2_end = 5;
+  let d1Color;
+  let d2Color;
 
   r.BeginDrawing();
   r.ClearBackground(r.BLACK);
   r.DrawRectangle(p1_start, y, p1_end, windowHeight, pColor);
   r.DrawRectangle(p2_start, y, p2_end, windowHeight, pColor);
 
-  dColor = changeColor(p1_start, p1_end, d_x, d_width);
-  if (dColor != r.RED) {
-    dColor = changeColor(p2_start, p2_end, d_x, d_width);
+  d1Color = changeColor(p1_start, p1_end, detector1X, detectorWidth);
+  if (d1Color != r.RED) {
+    d1Color = changeColor(p2_start, p2_end, detector1X, detectorWidth);
   }
-  r.DrawRectangle(d_x, y, d_width, windowHeight, dColor);
+  d2Color = changeColor(p1_start, p1_end, detector2X, detectorWidth);
+  if (d2Color != r.RED) {
+    d2Color = changeColor(p2_start, p2_end, detector2X, detectorWidth);
+  }
+  r.DrawRectangle(detector1X, y, detectorWidth, windowHeight, d1Color);
+  r.DrawRectangle(detector2X, y, detectorWidth, windowHeight, d2Color);
   r.EndDrawing();
 }
 
