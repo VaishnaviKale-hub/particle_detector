@@ -4,15 +4,15 @@ const windowWidth = 300;
 const windowHeight = 200;
 const y = 0;
 const detectorWidth = 20;
+const d1Limit = windowWidth / 2;
+const d2Limit = windowWidth / 2 + detectorWidth;
 
 let detector1X = 0;
 let detector2X = windowWidth - detectorWidth;
-let d1Forward = 2;
-const start1 = detector1X;
-const d1Limit = windowWidth / 2;
-let d2Forward = 3;
 const start2 = detector2X;
-const d2Limit = windowWidth / 2 + detectorWidth;
+const start1 = detector1X;
+let d2Forward = -1;
+let d1Forward = 1;
 
 function setup() {
   r.InitWindow(windowWidth, windowHeight, "Particle Dectector");
@@ -22,28 +22,28 @@ function setup() {
 function move1() {
   const d1Speed = 1;
 
-  if (d1Forward % 2 === 0) {
+  if (d1Forward > 0) {
     detector1X = detector1X + d1Speed;
   }
-  else if (d1Forward % 2 != 0) {
+  else if (d1Forward < 0) {
     detector1X = detector1X - d1Speed;
   }
   if (detector1X + detectorWidth === d1Limit || detector1X === start1) {
-    d1Forward++;
+    d1Forward = d1Forward * -1;
   }
 }
 
 function move2() {
   const d2Speed = 1;
 
-  if (d2Forward % 2 === 0) {
+  if (d2Forward > 0) {
     detector2X = detector2X + d2Speed;
   }
-  if (d2Forward % 2 != 0) {
+  if (d2Forward < 0) {
     detector2X = detector2X - d2Speed;
   }
   if (detector2X + detectorWidth === d2Limit || detector2X === start2) {
-    d2Forward++;
+    d2Forward = d2Forward * -1;
   }
 }
 
