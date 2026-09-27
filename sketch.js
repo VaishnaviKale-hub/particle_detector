@@ -1,7 +1,7 @@
 const r = require("raylib");
 const g = require("./geometry");
 
-const windowWidth = 600;
+const windowWidth = 300;
 const windowHeight = 200;
 const detectorWidth = 20;
 const detector3Height = detectorWidth;
@@ -35,8 +35,8 @@ function update() {
   const detector2End = windowWidth / 2 + detectorWidth;
   const detector3End = windowHeight;
   const detector1Speed = 2;
-  const detector2Speed = 4;
-  const detector3Speed = 4;
+  const detector2Speed = 1;
+  const detector3Speed = 2;
 
   detector1X = g.move(detector1X, detector1Forward, detector1Speed);
   detector1Forward = g.checkBoundary(detector1X, detectorWidth, start1, detector1End, detector1Forward);
