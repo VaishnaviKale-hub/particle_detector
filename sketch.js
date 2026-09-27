@@ -22,13 +22,17 @@ function setup() {
   r.SetTargetFPS(50);
 }
 
-/* function colorChange(overlap, p1_start, p1_end, p2_start, p2_end, detectorX, detectorWidth) {
+function running() {
+  return !r.WindowShouldClose();
+}
+
+function colorChange(overlap, p1_start, p1_end, p2_start, p2_end, detectorX, detectorWidth) {
   overlap = g.CheckOverlap(p1_start, p1_end, detectorX, detectorWidth);
   if (!overlap) {
     overlap = g.CheckOverlap(p2_start, p2_end, detectorX, detectorWidth);
   }
   return overlap ? r.RED : r.WHITE;
-} */
+}
 
 function update() {
   const detector1End = windowWidth / 2;
@@ -68,19 +72,15 @@ function draw() {
   r.DrawRectangle(partical2Start, y, partical2End, windowHeight, pColor);
   r.DrawRectangle(y, partical3Start, windowWidth, partical3End, pColor);
 
-  detector1Color = g.colorChange(detector1Color, partical1Start, partical1End, partical2Start, partical2End, detector1X, detectorWidth);
-  detector2Color = g.colorChange(detector2Color, partical2Start, partical2End, partical1Start, partical1End, detector2X, detectorWidth);
-  detector3Color = g.colorChange(detector3Color, partical3Start, partical3End, partical3Start, partical3End, detector3Y, detector3Height);
+  detector1Color = colorChange(detector1Color, partical1Start, partical1End, partical2Start, partical2End, detector1X, detectorWidth);
+  detector2Color = colorChange(detector2Color, partical2Start, partical2End, partical1Start, partical1End, detector2X, detectorWidth);
+  detector3Color = colorChange(detector3Color, partical3Start, partical3End, partical3Start, partical3End, detector3Y, detector3Height);
 
   r.DrawRectangle(detector1X, y, detectorWidth, windowHeight, detector1Color);
   r.DrawRectangle(detector2X, y, detectorWidth, windowHeight, detector2Color);
   r.DrawRectangle(y, detector3Y, windowWidth, detector3Height, detector3Color);
 
   r.EndDrawing();
-}
-
-function running() {
-  return !r.WindowShouldClose();
 }
 
 function teardown() {
