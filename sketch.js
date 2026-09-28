@@ -1,26 +1,16 @@
 const r = require("raylib");
-const g = require("./geometry");
-
-const windowWidth = 300;
-const windowHeight = 200;
-const detectorWidth = 20;
-const detector3Height = detectorWidth;
-
-let detector1X = 0;
-let detector2X = windowWidth / 2;
-let detector3Y = 0;
-
-let detector1Speed = 2;
-let detector2Speed = 1;
-let detector3Speed = 2;
-
-const start1 = detector1X;
-const start2 = detector2X;
-const start3 = detector3Y;
+const g = require("./detector.js");
+const w = require("./window.js");
+const d1 = require("./d1.js");
+const d2 = require("./d2.js");
+const d3 = require("./d3.js");
+const p1 = require("./p1.js");
+const p2 = require("./p2.js");
+const p3 = require("./p3.js");
 
 function setup() {
   r.SetTraceLogLevel(r.LOG_NONE);
-  r.InitWindow(windowWidth, windowHeight, "Particle Dectector");
+  r.InitWindow(w.width, w.height, "Particle Dectector");
   r.SetTargetFPS(50);
 }
 
@@ -28,54 +18,45 @@ function running() {
   return !r.WindowShouldClose();
 }
 
-function colorChange(overlap, p1_start, p1_end, p2_start, p2_end, detectorX, detectorWidth) {
-
-  overlap = g.CheckOverlap(p1_start, p1_end, detectorX, detectorWidth) || g.CheckOverlap(p2_start, p2_end, detectorX, detectorWidth);
+function chooseColor(p1_start, p1_end, p2_start, p2_end, d_x, d_width) {
+  let overlap = g.doesOverlaps(p1_start, p1_end, d_x, d_width, p2_start, p2_end);
   return overlap ? r.RED : r.WHITE;
 }
 
 function update() {
-  const detector1End = windowWidth / 2;
-  const detector2End = windowWidth;
-  const detector3End = windowHeight;
+  d1.x = d1.x + d1.speed;
+  d1.speed = g.changeDirection(d1.x, d1.width, d1.start, d1.end, d1.speed);
 
-  detector1X = detector1X + detector1Speed;
-  detector1Speed = g.checkBoundary(detector1X, detectorWidth, start1, detector1End, detector1Speed);
+  d2.x = d2.x + d2.speed;
+  d2.speed = g.changeDirection(d2.x, d1.width, d2.start, d2.end, d2.speed);
 
-  detector2X = detector2X + detector2Speed;
-  detector2Speed = g.checkBoundary(detector2X, detectorWidth, start2, detector2End, detector2Speed);
+  d3.y = d3.y + d3.speed;
+  d3.speed = g.changeDirection(d3.y, d3.height, d3.start, d3.end, d3.speed);
+}
 
-  detector3Y = detector3Y + detector3Speed;
-  detector3Speed = g.checkBoundary(detector3Y, detector3Height, start3, detector3End, detector3Speed);
+function drawPartical(x, y, width, height, color) {
+  r.DrawRectangle(x, y, width, height, color);
+}
+
+function drawDitector(x, y, width, height, color) {
+  r.DrawRectangle(x, y, width, height, color);
 }
 
 function draw() {
-  const y = 0;
-  const pColor = r.BLUE;
-  let detector1Color;
-  let detector2Color;
-  let detector3Color;
-  const partical1Start = 100;
-  const partical1End = 50;
-  const partical2Start = 200;
-  const partical2End = 5;
-  const partical3Start = 100;
-  const partical3End = 10;
-
   r.BeginDrawing();
   r.ClearBackground(r.BLACK);
 
-  r.DrawRectangle(partical1Start, y, partical1End, windowHeight, pColor);
-  r.DrawRectangle(partical2Start, y, partical2End, windowHeight, pColor);
-  r.DrawRectangle(y, partical3Start, windowWidth, partical3End, pColor);
+  drawPartical(p1.start, d1.y, p1.end, w.height, p1.color);
+  drawPartical(p2.start, d1.y, p2.end, w.height, p1.color);
+  drawPartical(d1.y, p3.start, w.width, p3.end, p1.color);
 
-  detector1Color = colorChange(detector1Color, partical1Start, partical1End, partical2Start, partical2End, detector1X, detectorWidth);
-  detector2Color = colorChange(detector2Color, partical2Start, partical2End, partical1Start, partical1End, detector2X, detectorWidth);
-  detector3Color = colorChange(detector3Color, partical3Start, partical3End, partical3Start, partical3End, detector3Y, detector3Height);
+  d1.color = chooseColor(p1.start, p1.end, p2.start, p2.end, d1.x, d1.width);
+  d2.color = chooseColor(p2.start, p2.end, p1.start, p1.end, d2.x, d1.width);
+  d3.color = chooseColor(p3.start, p3.end, p3.start, p3.end, d3.y, d3.height);
 
-  r.DrawRectangle(detector1X, y, detectorWidth, windowHeight, detector1Color);
-  r.DrawRectangle(detector2X, y, detectorWidth, windowHeight, detector2Color);
-  r.DrawRectangle(y, detector3Y, windowWidth, detector3Height, detector3Color);
+  drawDitector(d1.x, d1.y, d1.width, w.height, d1.color);
+  drawDitector(d2.x, d1.y, d1.width, w.height, d2.color);
+  drawDitector(d1.y, d3.y, w.width, d3.height, d3.color);
 
   r.EndDrawing();
 }
