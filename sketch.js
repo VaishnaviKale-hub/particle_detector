@@ -24,6 +24,11 @@ function chooseColor(p1_start, p1_end, p2_start, p2_end, d_x, d_width) {
 }
 
 function update() {
+
+  d1.color = chooseColor(p1.start, p1.end, p2.start, p2.end, d1.x, d1.width);
+  d2.color = chooseColor(p2.start, p2.end, p1.start, p1.end, d2.x, d1.width);
+  d3.color = chooseColor(p3.start, p3.end, p3.start, p3.end, d3.y, d3.height);
+
   d1.x = d1.x + d1.speed;
   d1.speed = g.changeDirection(d1.x, d1.width, d1.start, d1.end, d1.speed);
 
@@ -38,7 +43,7 @@ function drawPartical(x, y, width, height, color) {
   r.DrawRectangle(x, y, width, height, color);
 }
 
-function drawDitector(x, y, width, height, color) {
+function drawDetector(x, y, width, height, color) {
   r.DrawRectangle(x, y, width, height, color);
 }
 
@@ -50,13 +55,9 @@ function draw() {
   drawPartical(p2.start, d1.y, p2.end, w.height, p1.color);
   drawPartical(d1.y, p3.start, w.width, p3.end, p1.color);
 
-  d1.color = chooseColor(p1.start, p1.end, p2.start, p2.end, d1.x, d1.width);
-  d2.color = chooseColor(p2.start, p2.end, p1.start, p1.end, d2.x, d1.width);
-  d3.color = chooseColor(p3.start, p3.end, p3.start, p3.end, d3.y, d3.height);
-
-  drawDitector(d1.x, d1.y, d1.width, w.height, d1.color);
-  drawDitector(d2.x, d1.y, d1.width, w.height, d2.color);
-  drawDitector(d1.y, d3.y, w.width, d3.height, d3.color);
+  drawDetector(d1.x, d1.y, d1.width, w.height, d1.color);
+  drawDetector(d2.x, d1.y, d1.width, w.height, d2.color);
+  drawDetector(d1.y, d3.y, w.width, d3.height, d3.color);
 
   r.EndDrawing();
 }
