@@ -18,24 +18,26 @@ function running() {
   return !r.WindowShouldClose();
 }
 
-function chooseColor(p1_start, p1_end, p2_start, p2_end, d_x, d_width) {
-  let overlap = g.doesOverlaps(p1_start, p1_end, d_x, d_width, p2_start, p2_end);
+function chooseColor(overlap) {
   return overlap ? r.RED : r.WHITE;
 }
 
 function update() {
 
-  d1.color = chooseColor(p1.start, p1.end, p2.start, p2.end, d1.x, d1.width);
-  d2.color = chooseColor(p2.start, p2.end, p1.start, p1.end, d2.x, d1.width);
-  d3.color = g.checkOverlap(p3.start, p3.end, d3.y, d3.height) ? r.RED : r.WHITE;
+  const detector1Overlap = g.doesOverlaps(p1.start, p1.end, d1.x, d1.width, p2.start, p2.end);
+  const detector2Overlap = g.doesOverlaps(p2.start, p2.end, d2.x, d1.width, p1.start, p1.end);
+  const detector3Overlap = g.checkOverlap(p3.start, p3.end, d3.y, d3.height);
+
+  d1.color = chooseColor(detector1Overlap);
+  d2.color = chooseColor(detector2Overlap);
+  d3.color = chooseColor(detector3Overlap);
 
   d1.x = d1.x + d1.speed;
-  d1.speed = g.changeDirection(d1.x, d1.width, d1.start, d1.end, d1.speed);
-
   d2.x = d2.x + d2.speed;
-  d2.speed = g.changeDirection(d2.x, d1.width, d2.start, d2.end, d2.speed);
-
   d3.y = d3.y + d3.speed;
+
+  d1.speed = g.changeDirection(d1.x, d1.width, d1.start, d1.end, d1.speed);
+  d2.speed = g.changeDirection(d2.x, d1.width, d2.start, d2.end, d2.speed);
   d3.speed = g.changeDirection(d3.y, d3.height, d3.start, d3.end, d3.speed);
 }
 
