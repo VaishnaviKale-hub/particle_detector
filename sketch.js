@@ -27,7 +27,7 @@ function update() {
 
   d1.color = chooseColor(p1.start, p1.end, p2.start, p2.end, d1.x, d1.width);
   d2.color = chooseColor(p2.start, p2.end, p1.start, p1.end, d2.x, d1.width);
-  d3.color = chooseColor(p3.start, p3.end, p3.start, p3.end, d3.y, d3.height);
+  d3.color = checkOverlap(p3.start, p3.end, d3.y, d3.height) ? r.RED : r.WHITE;
 
   d1.x = d1.x + d1.speed;
   d1.speed = g.changeDirection(d1.x, d1.width, d1.start, d1.end, d1.speed);
