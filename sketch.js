@@ -41,7 +41,7 @@ function update() {
   d3.speed = g.changeDirection(d3.y, d3.height, d3.start, d3.end, d3.speed);
 }
 
-function drawPartical(x, y, width, height, color) {
+function drawParticle(x, y, width, height, color) {
   r.DrawRectangle(x, y, width, height, color);
 }
 
@@ -53,9 +53,9 @@ function draw() {
   r.BeginDrawing();
   r.ClearBackground(r.BLACK);
 
-  drawPartical(p1.start, d1.y, p1.end, w.height, p1.color);
-  drawPartical(p2.start, d1.y, p2.end, w.height, p1.color);
-  drawPartical(d1.y, p3.start, w.width, p3.end, p1.color);
+  drawParticle(p1.start, d1.y, p1.end, w.height, p1.color);
+  drawParticle(p2.start, d1.y, p2.end, w.height, p1.color);
+  drawParticle(d1.y, p3.start, w.width, p3.end, p1.color);
 
   drawDetector(d1.x, d1.y, d1.width, w.height, d1.color);
   drawDetector(d2.x, d1.y, d1.width, w.height, d2.color);
