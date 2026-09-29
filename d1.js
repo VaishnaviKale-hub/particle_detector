@@ -6,6 +6,7 @@ const width = 20;
 const start = x;
 const end = w.width / 2;
 const y = 0;
+let overlap;
 module.exports = {
   x,
   y,
@@ -14,4 +15,6 @@ module.exports = {
   width,
   start,
   end,
+  overlap,
+
 }

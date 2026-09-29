@@ -24,13 +24,9 @@ function chooseColor(overlap) {
 
 function update() {
 
-  const detector1Overlap = g.doesOverlaps(p1.start, p1.end, d1.x, d1.width, p2.start, p2.end);
-  const detector2Overlap = g.doesOverlaps(p2.start, p2.end, d2.x, d1.width, p1.start, p1.end);
-  const detector3Overlap = g.checkOverlap(p3.start, p3.end, d3.y, d3.height);
-
-  d1.color = chooseColor(detector1Overlap);
-  d2.color = chooseColor(detector2Overlap);
-  d3.color = chooseColor(detector3Overlap);
+  d1.overlap = g.doesOverlaps(p1.start, p1.end, d1.x, d1.width, p2.start, p2.end);
+  d2.overlap = g.doesOverlaps(p2.start, p2.end, d2.x, d1.width, p1.start, p1.end);
+  d3.overlap = g.checkOverlap(p3.start, p3.end, d3.y, d3.height);
 
   d1.x = d1.x + d1.speed;
   d2.x = d2.x + d2.speed;
@@ -57,9 +53,9 @@ function draw() {
   drawParticle(p2.start, d1.y, p2.end, w.height, p1.color);
   drawParticle(d1.y, p3.start, w.width, p3.end, p1.color);
 
-  drawDetector(d1.x, d1.y, d1.width, w.height, d1.color);
-  drawDetector(d2.x, d1.y, d1.width, w.height, d2.color);
-  drawDetector(d1.y, d3.y, w.width, d3.height, d3.color);
+  drawDetector(d1.x, d1.y, d1.width, w.height, chooseColor(d1.overlap));
+  drawDetector(d2.x, d1.y, d1.width, w.height, chooseColor(d2.overlap));
+  drawDetector(d1.y, d3.y, w.width, d3.height, chooseColor(d3.overlap));
 
   r.EndDrawing();
 }

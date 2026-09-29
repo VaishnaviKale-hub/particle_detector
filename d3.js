@@ -5,6 +5,7 @@ let color;
 const height = 20;
 const start = y;
 const end = w.height;
+let overlap;
 
 module.exports = {
   y,
@@ -13,4 +14,5 @@ module.exports = {
   height,
   start,
   end,
+  overlap,
 }
