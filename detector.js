@@ -1,27 +1,66 @@
+const r = require("raylib");
+const p = require("./particle.js");
 
-function checkOverlap(particalStart, particalEnd, d_x, dWidth) {
-  const upper = d_x + dWidth >= particalStart;
-  const lower = d_x <= particalStart + particalEnd;
-  return upper && lower;
+function createHorizontalScanner(x, y, velocity, width, start, end, hasDetected, height,) {
+  return {
+    x,
+    y,
+    velocity,
+    width,
+    start,
+    end,
+    hasDetected,
+    height,
+  }
 }
 
-function doesOverlaps(p1_start, p1_end, d_x, d_width, p2_start, p2_end) {
-  const overlap1 = checkOverlap(p1_start, p1_end, d_x, d_width);
-  const overlap2 = checkOverlap(p2_start, p2_end, d_x, d_width);
-  return overlap1 || overlap2;
+function createVerticalScanner(x, y, velocity, width, start, end, hasDetected, height,) {
+  return {
+    x,
+    y,
+    velocity,
+    width,
+    start,
+    end,
+    hasDetected,
+    height,
+  }
+}
+
+function drawDetector(d) {
+  const color = d.hasDetected ? r.RED : r.WHITE;
+  r.DrawRectangle(d.x, d.y, d.width, d.height, color);
+}
+
+function updateHorizontalDetector(d, p1, p2) {
+  d.hasDetected = p.doesOverlaps(p1.start, p1.width, d.x, d.width, p2.start, p2.width);
+
+  d.x = d.x + d.velocity;
+
+  d.velocity = changeDirection(d.x, d.width, d.start, d.end, d.velocity);
+
+}
+
+function updateVerticalDetector(d3, p3) {
+  d3.hasDetected = p.checkOverlap(p3.end, p3.height, d3.y, d3.height);
+  d3.y = d3.y + d3.velocity;
+  d3.velocity = changeDirection(d3.y, d3.height, d3.start, d3.end, d3.velocity);
 }
 
 function isOutOfBound(d_x, dWidth, lower, upper) {
   return (d_x + dWidth === upper || d_x === lower)
 }
 
-function changeDirection(d_x, dWidth, lower, upper, speed,) {
-  return isOutOfBound(d_x, dWidth, lower, upper) ? -speed : speed;
+function changeDirection(d_x, d_width, d_start, d_end, d_velocity) {
+  return isOutOfBound(d_x, d_width, d_start, d_end) ? -d_velocity : d_velocity;
 }
 
 module.exports = {
-  checkOverlap,
-  doesOverlaps,
+  createHorizontalScanner,
+  createVerticalScanner,
+  drawDetector,
+  updateHorizontalDetector,
+  updateVerticalDetector,
   isOutOfBound,
   changeDirection,
 };

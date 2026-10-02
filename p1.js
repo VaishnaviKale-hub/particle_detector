@@ -1,7 +1,7 @@
 const r = require("raylib");
 const start = 100;
-const end = 50;
-const color = r.SKYBLUE;
+const width = 50;
+const height = w.height;
 
 module.exports = {
   start,

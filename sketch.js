@@ -1,12 +1,15 @@
 const r = require("raylib");
-const g = require("./detector.js");
+const d = require("./detector.js");
 const w = require("./window.js");
-const d1 = require("./d1.js");
-const d2 = require("./d2.js");
-const d3 = require("./d3.js");
-const p1 = require("./p1.js");
-const p2 = require("./p2.js");
-const p3 = require("./p3.js");
+const p = require("./particle.js");
+
+const d1 = d.createHorizontalScanner(0, 0, 2, 20, 0, w.width / 2, false, w.height);
+const d2 = d.createHorizontalScanner(w.width / 2, 0, 1, 20, w.width / 2, w.width, false, w.height);
+const d3 = d.createVerticalScanner(0, 0, 2, w.width, 0, w.height, false, 20);
+
+const p1 = p.createHorizontalParticle(100, 0, 50, w.height);
+const p2 = p.createHorizontalParticle(200, 0, 5, w.height);
+const p3 = p.createVerticalParticle(0, 100, w.width, 10);
 
 function setup() {
   r.SetTraceLogLevel(r.LOG_NONE);
@@ -18,44 +21,23 @@ function running() {
   return !r.WindowShouldClose();
 }
 
-function chooseColor(overlap) {
-  return overlap ? r.RED : r.WHITE;
-}
-
 function update() {
-
-  d1.overlap = g.doesOverlaps(p1.start, p1.end, d1.x, d1.width, p2.start, p2.end);
-  d2.overlap = g.doesOverlaps(p2.start, p2.end, d2.x, d1.width, p1.start, p1.end);
-  d3.overlap = g.checkOverlap(p3.start, p3.end, d3.y, d3.height);
-
-  d1.x = d1.x + d1.speed;
-  d2.x = d2.x + d2.speed;
-  d3.y = d3.y + d3.speed;
-
-  d1.speed = g.changeDirection(d1.x, d1.width, d1.start, d1.end, d1.speed);
-  d2.speed = g.changeDirection(d2.x, d1.width, d2.start, d2.end, d2.speed);
-  d3.speed = g.changeDirection(d3.y, d3.height, d3.start, d3.end, d3.speed);
-}
-
-function drawParticle(x, y, width, height, color) {
-  r.DrawRectangle(x, y, width, height, color);
-}
-
-function drawDetector(x, y, width, height, color) {
-  r.DrawRectangle(x, y, width, height, color);
+  d.updateHorizontalDetector(d1, p1, p2);
+  d.updateHorizontalDetector(d2, p2, p1);
+  d.updateVerticalDetector(d3, p3);
 }
 
 function draw() {
   r.BeginDrawing();
   r.ClearBackground(r.BLACK);
 
-  drawParticle(p1.start, d1.y, p1.end, w.height, p1.color);
-  drawParticle(p2.start, d1.y, p2.end, w.height, p1.color);
-  drawParticle(d1.y, p3.start, w.width, p3.end, p1.color);
+  p.drawParticle(p1, r.SKYBLUE);
+  p.drawParticle(p2, r.SKYBLUE);
+  p.drawParticle(p3, r.SKYBLUE);
 
-  drawDetector(d1.x, d1.y, d1.width, w.height, chooseColor(d1.overlap));
-  drawDetector(d2.x, d1.y, d1.width, w.height, chooseColor(d2.overlap));
-  drawDetector(d1.y, d3.y, w.width, d3.height, chooseColor(d3.overlap));
+  d.drawDetector(d1);
+  d.drawDetector(d2);
+  d.drawDetector(d3);
 
   r.EndDrawing();
 }
