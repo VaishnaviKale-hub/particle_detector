@@ -28,7 +28,13 @@ function createVerticalScanner(x, y, velocity, width, start, end, hasDetected, h
 }
 
 function drawDetector(d) {
-  const color = d.hasDetected ? r.RED : r.WHITE;
+  const red = {
+    r: 230,
+    g: 41,
+    b: 55,
+    a: 180,
+  };
+  const color = d.hasDetected ? red : r.WHITE;
   r.DrawRectangle(d.x, d.y, d.width, d.height, color);
 }
 
