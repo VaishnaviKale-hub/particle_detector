@@ -1,6 +1,6 @@
 const r = require("raylib");
 const d = require("./detector.js");
-const w = require("./window.js");
+const w = require("./windows.js");
 const p = require("./particle.js");
 
 const d1 = d.createHorizontalScanner(0, 0, 2, 20, 0, w.width / 2, false, w.height);
