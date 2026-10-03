@@ -15,13 +15,8 @@ function createdetector(x, y, velocity, width, start, end, hasDetected, height,)
 }
 
 function drawDetector(d) {
-  const red = {
-    r: 230,
-    g: 41,
-    b: 55,
-    a: 180,
-  };
-  const color = d.hasDetected ? red : r.WHITE;
+  const color = d.hasDetected ? r.ColorAlpha(r.RED, 0.8)
+    : r.WHITE;
   r.DrawRectangle(d.x, d.y, d.width, d.height, color);
 }
 
