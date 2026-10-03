@@ -10,13 +10,13 @@ function setup(world) {
   r.InitWindow(world.width, world.height, "Particle Dectector");
   r.SetTargetFPS(50);
 
-  world.d1 = d.createHorizontalScanner(0, 0, 2, 20, 0, world.width / 2, false, world.height);
-  world.d2 = d.createHorizontalScanner(world.width / 2, 0, 1, 20, world.width / 2, world.width, false, world.height);
-  world.d3 = d.createHorizontalScanner(0, 0, 2, world.width, 0, world.height, false, 20);
+  world.d1 = d.createdetector(0, 0, 2, 20, 0, world.width / 2, false, world.height);
+  world.d2 = d.createdetector(world.width / 2, 0, 1, 20, world.width / 2, world.width, false, world.height);
+  world.d3 = d.createdetector(0, 0, 2, world.width, 0, world.height, false, 20);
 
-  world.p1 = p.createHorizontalParticle(100, 0, 50, world.height);
-  world.p2 = p.createHorizontalParticle(200, 0, 5, world.height);
-  world.p3 = p.createVerticalParticle(0, 100, world.width, 10);
+  world.p1 = p.createParticle(100, 0, 50, world.height);
+  world.p2 = p.createParticle(200, 0, 5, world.height);
+  world.p3 = p.createParticle(0, 100, world.width, 10);
 
 
 }

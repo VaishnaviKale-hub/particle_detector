@@ -1,13 +1,5 @@
 const r = require("raylib");
-function createHorizontalParticle(start, end, width, height) {
-  return {
-    start,
-    end,
-    width,
-    height,
-  }
-}
-function createVerticalParticle(start, end, width, height) {
+function createParticle(start, end, width, height) {
   return {
     start,
     end,
@@ -33,8 +25,7 @@ function doesOverlaps(p1_start, p1_end, d_x, d_width, p2_start, p2_end) {
 }
 
 module.exports = {
-  createHorizontalParticle,
-  createVerticalParticle,
+  createParticle,
   drawParticle,
   checkOverlap,
   doesOverlaps

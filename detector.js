@@ -1,20 +1,7 @@
 const r = require("raylib");
 const p = require("./particle.js");
 
-function createHorizontalScanner(x, y, velocity, width, start, end, hasDetected, height,) {
-  return {
-    x,
-    y,
-    velocity,
-    width,
-    start,
-    end,
-    hasDetected,
-    height,
-  }
-}
-
-function createVerticalScanner(x, y, velocity, width, start, end, hasDetected, height,) {
+function createdetector(x, y, velocity, width, start, end, hasDetected, height,) {
   return {
     x,
     y,
@@ -40,11 +27,8 @@ function drawDetector(d) {
 
 function updateHorizontalDetector(d, p1, p2) {
   d.hasDetected = p.doesOverlaps(p1.start, p1.width, d.x, d.width, p2.start, p2.width);
-
   d.x = d.x + d.velocity;
-
   d.velocity = changeDirection(d.x, d.width, d.start, d.end, d.velocity);
-
 }
 
 function updateVerticalDetector(d3, p3) {
@@ -62,8 +46,7 @@ function changeDirection(d_x, d_width, d_start, d_end, d_velocity) {
 }
 
 module.exports = {
-  createHorizontalScanner,
-  createVerticalScanner,
+  createdetector,
   drawDetector,
   updateHorizontalDetector,
   updateVerticalDetector,
