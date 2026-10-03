@@ -12,7 +12,7 @@ function setup(world) {
 
   world.d1 = d.createHorizontalScanner(0, 0, 2, 20, 0, world.width / 2, false, world.height);
   world.d2 = d.createHorizontalScanner(world.width / 2, 0, 1, 20, world.width / 2, world.width, false, world.height);
-  world.d3 = d.createVerticalScanner(0, 0, 2, world.width, 0, world.height, false, 20);
+  world.d3 = d.createHorizontalScanner(0, 0, 2, world.width, 0, world.height, false, 20);
 
   world.p1 = p.createHorizontalParticle(100, 0, 50, world.height);
   world.p2 = p.createHorizontalParticle(200, 0, 5, world.height);
